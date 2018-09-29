@@ -1,7 +1,7 @@
 <template>
 	<div class="plan-page">
 		<div class="classChange-module">
-			<span>当前班级：{{classNum}}班</span> <el-button type='primary' @click="changeClass">切换</el-button>
+			<span>当前班级：{{classNum}}班</span> <el-button type='primary' @click="changeClass"  size="small">切换</el-button>
 		</div>
 			<div class="add-components">
 				<div class="add-header">
@@ -10,7 +10,7 @@
 							{{x.name}}
 						</div>
 					</div>
-					<el-button type="primary" @click="addPlan">+新增</el-button>
+					<el-button type="primary" @click="addPlan" size="small">+新增</el-button>
 				</div>
 				<data-list
 					:data="planData"
@@ -34,6 +34,7 @@
 				</choose-dialog>
 			</div>
 			<div class="">
+				<!--新建分组方案-->
 				<get-score
 					:data="groupArr"
 					ref="getScore"
@@ -55,35 +56,45 @@
 			return{
 				active:0,
 				classNum:3,
-				chooseTitle:'选择当前班级'
+				chooseTitle:'选择当前班级',
+				copy_groupArr:''
 			}
 		},
-		props:{
-			
-		},
 		methods:{
+			//编辑列信息
 			editInfo(){
 				
 			},
+			//删除列信息
 			deleteInfo(){
 				
 			},
+			//切换班级
 			changeClass(){
 				this.$refs['planChooseDialog'].$emit('show',true);
 			},
+			//班级切换/查询
 			search(){
 				
 			},
+			//班级切换/选择
 			chooseInfo_(msg){
 				console.log(msg)
 //				this.classNum = msg.classNum;
 			},
+			//新增方案
 			addPlan(){
 				this.$refs['getScore'].$emit('show')
 			},
+			//我的方案/班级方案切换;
 			change(index){
 				this.active =index;
-			}
+			},
+//			//添加学生
+//			submitStd_(index,val){
+//				console.log(index,val)
+//				this.groupArr[index]
+//			},
 		},
 		components:{
 			dataList,
@@ -124,7 +135,7 @@
 	}
 	.add-tab{
 		border:.1px solid #CCCCCC;
-		padding: 12px 40px;
+		padding: 9px 25px;
 		color: black;
 		cursor: pointer;
 		overflow: hidden;

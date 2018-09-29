@@ -7,10 +7,10 @@
 			 @close="close_" 
 			 v-if="dialogFormValue">
 			 <div class="ruleDesc">
-			 		<div>计分规则</div>
+			 		<div @click="showRuleDesc">计分规则</div>
 			 	</div>
 			 <div class="dialog-body">
-			 	<div class="dialog-table" v-for="(x,index) in data">
+			 	<div class="dialog-table" v-for="(x,index) in copy_data">
 			 		<i class="el-icon-close del" style="position: absolute;right: 10px;top: 10px;" @click="deleteGroup(index)"></i>
 			 		<div class="table-data">
 			 			<div class="data-name">
@@ -26,7 +26,7 @@
 				 				</div>
 			 				</div>
 			 			</div>
-			 			<el-button class="button">+选择学生</el-button>
+			 			<el-button class="button" @click="addStudents(index)">+选择学生</el-button>
 			 			<div  class="student-div" v-if="x.students.length>0">
 			 				<div class="studentsList" v-for="y in x.students">
 			 					{{y.name}}
@@ -37,7 +37,7 @@
 			 			</div>
 			 		</div>
 			 	</div>
-			 	<div class="dialog-add-table" v-if="data.length<4" @click="addTable">
+			 	<div class="dialog-add-table" v-if="copy_data.length<4" @click="addTable">
 			 		<div class="add-data" >
 			 			添加
 			 			<div class="">
@@ -54,20 +54,30 @@
 				<el-button type="primary" @click="submit_" round>确认</el-button>
 			</div>
 		</el-dialog>
-		
+		<add-students
+			ref="addStudents"
+			@submit_="submitStd"
+			>
+		</add-students>
 		<senior-setting
 			ref="seniorSetting"
 			>
 		</senior-setting>
-		
+		<rule-desc
+			ref="scoreRuleDesc"
+			>
+		</rule-desc>
 	</div>
 </template>
 
 <script>
+	import addStudents from '@/components/setting/addStudents'
 	import seniorSetting from '@/components/setting/seniorSetting'
+	import ruleDesc from '@/components/setting/scoreRuleDesc'
 	export default{
 		created(){
 			this.$on('show',()=>{
+				this.copy_data = JSON.parse(JSON.stringify(this.data));
 				this.dialogFormValue = true;
 			})
 			for(let i in this.data){
@@ -76,9 +86,10 @@
 		},
 		data(){
 			return{
+				copy_data:'',
 				dialogFormValue:false,
-				radioBtn:[-1,-1,-1,-1],
-				radioArr:[
+				radioBtn:[-1,-1,-1,-1],//存系数变量
+				radioArr:[				//系数选择
 					{
 						val:1,
 					},{
@@ -88,7 +99,8 @@
 					},{
 						val:4,
 					},
-				]
+				],
+				chooseIndex:0
 			}
 		},
 		props:{
@@ -98,13 +110,21 @@
 			
 		},
 		methods:{
+			//修改小组名称
 			editName(index){
-				console.log(index)
-				this.data[index].isEdit = !this.data[index].isEdit;
+				this.copy_data[index].isEdit = !this.copy_data[index].isEdit;
 			},
+			//删除小组
 			deleteGroup(index){
-				this.data.splice(index,1);
+				if(this.copy_data[index].students==0){
+					this.radioBtn.splice(index,1);
+					this.copy_data.splice(index,1);	
+				}else{
+					console.log('不能删除')
+				}
+				
 			},
+			//修改系数
 			changeActive(index,val){
 				for(let i in this.radioBtn){
 					if(this.radioBtn[i]==val){
@@ -113,23 +133,51 @@
 				}
 				this.radioBtn.splice(index,1,val);
 			},
+			//展示高级设置
 			showSetting(){
 				this.$refs['seniorSetting'].$emit('show');
 			},
-			addTable(){
-				this.data.push({
-					name:'测试方案',
-					ratio:1
-				});
+			//展示计分规则
+			showRuleDesc(){
+				this.$refs['scoreRuleDesc'].$emit('show');
 			},
+			//添加学生
+			addStudents(index){
+				this.$refs['addStudents'].$emit('show',this.copy_data[index]);
+				this.chooseIndex = index;
+			},
+			//确认添加学生
+			submitStd(val){
+				this.copy_data[this.chooseIndex].students = val.choosedStd;
+				console.log(this.copy_data[this.chooseIndex])
+			},
+			//添加分组
+			addTable(){
+				this.copy_data.push({
+					name:'测试方案',
+					ratio:1,
+					isEdit:false,
+					students:[]
+				});
+				for(let i in this.radioArr){
+					if(this.radioBtn.indexOf(this.radioArr[i].val)==-1){
+						this.radioBtn.push(this.radioArr[i].val)
+						break;
+					}
+				}
+			},
+			//确认,这里将会操作真实数据;
 			submit_(){
 				
 			},
+			//关闭
 			close_(){
 				this.dialogFormValue = false;
 			}
 		},
 		components:{
+			addStudents,
+			ruleDesc,
 			seniorSetting
 		}
 	}
@@ -156,6 +204,7 @@
 		justify-content: center;
 		align-items: center;
 		margin: 10px 5px;
+		cursor: pointer;
 	}
 	.dialog-table{
 		padding: 10px;
@@ -217,10 +266,11 @@
 		border:1px solid #F1F1F1;
 		margin:0 5px;
 		width: 24%;
-		height: 300px;
+		height: 400px;
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		padding: 10px 0;
 	}
 	.button-div{
 		position: relative;

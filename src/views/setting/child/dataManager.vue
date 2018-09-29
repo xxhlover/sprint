@@ -1,7 +1,7 @@
 <template>
 	<div class="weight-page">
 		<div class="add-components">
-			<el-button type="primary" @click="dialogFormVisible=true;chooseOne={guanlian:0};action='add'">+新增数据角色</el-button>
+			<el-button type="primary" @click="dialogFormVisible=true;chooseOne={guanlian:0};action='add'" size="small">+新增数据角色</el-button>
 		</div>
 		<edit-dialog
 			v-if="dialogFormVisible"

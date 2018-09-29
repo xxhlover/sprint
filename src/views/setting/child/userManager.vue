@@ -1,7 +1,7 @@
 <template>
 	<div class="userManager-page">
 		<div class="add-components">
-			<el-button type="primary" @click="dialogFormVisible=true;user_chooseOne={};action='add'">+添加用户</el-button>
+			<el-button type="primary" @click="dialogFormVisible=true;user_chooseOne={};action='add'" size="small">+添加用户</el-button>
 		</div>
 		<edit-dialog
 			v-if="dialogFormVisible"
