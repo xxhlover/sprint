@@ -1,25 +1,30 @@
 <template>
 	<div class="details">
-		<div class="details-score"> 
-			<div :class="[index==5?'':'borderCss']" v-for="(x,index) in scoreClassify">
-				<div :style="x.colorStyle">{{x.point}}</div>
-				<div>{{x.desc}}</div>
+		<score-group :data="scoreClassify" ></score-group>
+		<div class="simple">
+			<div class="simple-header">
+				趋势分析
+			</div>
+			<div class="simple-body">
+				<analysis-echart></analysis-echart>
 			</div>
 		</div>
-		<div class="rank">
-				<div class="rank-header">
-					总分排行榜
-				</div>
-				<div class="rank-body">
-					<rank-list :data="rankClass" headColor="background: #0099CC;"></rank-list>
-					<rank-list :data="rankTeacher" headColor="background: #FF9933;"></rank-list>
-				</div>
+		<div class="simple">
+			<div class="simple-header">
+				总分排行榜
+			</div>
+			<div class="simple-body">
+				<rank-list :data="rankClass" headColor="background: #0099CC;">
+				</rank-list>
+				<rank-list :data="rankTeacher" headColor="background: #FF9933;">
+				</rank-list>
+			</div>
 		</div>
-		<div class="hot">
-			<div class="hot-header">
+		<div class="simple">
+			<div class="simple-header">
 				最热点评
 			</div>
-			<div class="hot-body">
+			<div class="simple-body">
 				<hot></hot>
 			</div>
 		</div>
@@ -27,12 +32,17 @@
 </template>
 
 <script>
-	import rankList from '@/components/comment/details/rank/rankList'
-	import hot from '@/components/comment/details/hot/hot'
+	import analysisEchart from '@/components/comment/details/analysis'
+	import scoreGroup from '@/components/comment/details/scoreGroup'
+	import rankList from '@/components/comment/details/rankList'
+	import hot from '@/components/comment/details/hot'
 	import {testData} from './js/data.js'
 	export default{
+		name:'commentDetails',
 		mixins:[testData],
 		components:{
+			analysisEchart,
+			scoreGroup,
 			rankList,
 			hot
 		}
@@ -42,37 +52,18 @@
 <style scoped>
 	.details{
 		width: 100%;
+		font-size: 1.5vw;
 	}
-	.details-score{
-		width: 100%;
-		height: 100px;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		border: 1px solid #EFF4F5;
+	.simple-header{
+		border-left: .2vw solid grey;
+		text-align: left;
+		margin: 1.2vw 0;
+		padding-left:.8vw;
 	}
-	.details-score>div{
+	.simple-body{
 		width: 100%;
-		height: 80%;
 		display: flex;
 		justify-content: center;
-		align-items: center;
-		flex-direction: column;
-	}
-	.details-score>div>div:nth-of-type(1){
-		font-size: 30px;
-	}
-	.borderCss{
-		border-right: 1px solid #EFF4F5;
-	}
-	.rank-header,.hot-header{
-		border-left: 3px solid grey;
-		text-align: left;
-		margin: 10px 0;
-	}
-	.rank-body{
-		display: flex;
-		justify-content: space-around;
 		align-items: center;
 	}
 </style>

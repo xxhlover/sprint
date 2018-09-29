@@ -14,9 +14,11 @@ export default new Router({
 		redirect: '/comment/details',
 		children: [{
 			path: 'details',
+			name:'commentDetails',
 			component: resolve => require(['@/views/comment/details'], resolve),
 		}, {
 			path: 'desc',
+			name:'commentDesc',
 			component: resolve => require(['@/views/comment/desc'], resolve)
 		}]
 	}, {
@@ -59,9 +61,11 @@ export default new Router({
 		children: [{
 			path: 'details',
 			component: resolve => require(['@/views/mobile/details'], resolve),
+			meta: {keepAlive: true}
 		}, {
 			path: 'desc',
-			component: resolve => require(['@/views/mobile/desc'], resolve)
+			component: resolve => require(['@/views/mobile/desc'], resolve),
+			meta: {keepAlive: true}
 		}]
 	}]
 

@@ -1,12 +1,12 @@
 <template>
 	<div class="searchClass">
-		<div style="width:60px">
-			班级
+		<div style="white-space: nowrap;">
+			班级:
 		</div>
 		 <el-select
 		 	style="margin: 0 5px;"
 		 	v-model="x.value" 
-		 	:placeholder="x.placeholder" @change="changeSchool(index)" v-for="(x,index) in chooseData" :disabled='index>disable'>
+		 	:placeholder="x.placeholder" @change="changeSchool(index)" v-for="(x,index) in chooseData" :disabled='index>disable' resize="horizontal">
 		    <el-option
 		      v-for="(item,index) in x.options"
 		      :label="item.name"
@@ -45,8 +45,7 @@
 <style scoped>
 	.searchClass{
 		display: flex;
-		justify-content: flex-start;
 		align-items: center;
-		width: 60%;
+		width: 100%;
 	}
 </style>

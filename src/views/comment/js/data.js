@@ -1,6 +1,28 @@
 export const testData = {
 	data() {
 		return {
+			groupPlans:[
+				{
+					name:'方案一',
+				},{
+					name:'方案二',
+				},{
+					name:'方案三',
+				},{
+					name:'方案四',
+				}
+			],
+			btns:[
+					{
+						name:'概况',
+					},{
+						name:'班级详情',
+					},{
+						name:'小组详情',
+					},{
+						name:'学生详情',
+					},
+				],
 			//details-scoreSum
 			scoreClassify: [{
 				desc: '使用教师数',

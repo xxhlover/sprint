@@ -49,17 +49,18 @@
 		display: flex;
 		justify-content: flex-start;
 		align-items: center;
+		margin: 1vw 0;
 	}
 	.tag{
-		width: 45px;
-		height: 25px;
+		width: 3.5vw;
+		height: 2vw;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		margin-right: 10px;
+		margin-right: 1vw;
 		white-space: nowrap;
 		cursor: pointer;
-		border-radius: 10px;
+		border-radius: .8vw;
 	}
 	.actived{
 		background: #3BB608;

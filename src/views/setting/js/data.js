@@ -1,7 +1,14 @@
 export const testData={
 	data(){
 		return{
-			//得分统计
+			//计分方案管理
+			addTabs:[
+				{
+					name:'我的计分方案'
+				},{
+					name:'班级计分方案'
+				},
+			],
 			planData:[
 				{
 					planName:'test',
@@ -51,19 +58,55 @@ export const testData={
 					{
 						name:'测试A方案',
 						ratio:1,
-						isEdit:false
+						isEdit:false,
+						students:[
+							{
+								name:'测试1'
+							},{
+								name:'测试1'
+							},{
+								name:'测试1'
+							}
+						]
 					},{
 						name:'测试B方案',
 						ratio:2,
-						isEdit:false
+						isEdit:false,
+						students:[
+							{
+								name:'测试2'
+							},{
+								name:'测试2'
+							},{
+								name:'测试2'
+							},{
+								name:'测试2'
+							},{
+								name:'测试2'
+							},{
+								name:'测试2'
+							},{
+								name:'测试2'
+							},{
+								name:'测试2'
+							},{
+								name:'测试2'
+							}
+						]
 					},{
 						name:'测试C方案',
 						ratio:3,
-						isEdit:false
+						isEdit:false,
+						students:[
+							{
+								name:'测试3'
+							}
+						]
 					},{
 						name:'测试D方案',
 						ratio:4,
-						isEdit:false
+						isEdit:false,
+						students:[]
 					}
 				],
 			

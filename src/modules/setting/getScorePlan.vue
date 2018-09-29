@@ -6,6 +6,9 @@
 			 :visible.sync="dialogFormValue" 
 			 @close="close_" 
 			 v-if="dialogFormValue">
+			 <div class="ruleDesc">
+			 		<div>计分规则</div>
+			 	</div>
 			 <div class="dialog-body">
 			 	<div class="dialog-table" v-for="(x,index) in data">
 			 		<i class="el-icon-close del" style="position: absolute;right: 10px;top: 10px;" @click="deleteGroup(index)"></i>
@@ -16,7 +19,7 @@
 			 				<i @click="editName(index)" class="el-icon-edit" style="margin-left: 10px; cursor: pointer;" ></i>
 			 			</div>
 			 			<div class="data-xishu">
-			 				<span>系数：</span>
+			 				<div style="white-space: nowrap;">系数：</div>
 			 				<div class="radio-div">
 			 					<div :class="[y.val==radioBtn[index]?'radio actived':'radio']" v-for="y in radioArr" @click="changeActive(index,y.val)">
 				 					{{y.val}}
@@ -24,10 +27,13 @@
 			 				</div>
 			 			</div>
 			 			<el-button class="button">+选择学生</el-button>
-			 			<div  class="student-div">
-			 				<div class="studentsList" v-for="x in students">
-			 					{{x.name}}
+			 			<div  class="student-div" v-if="x.students.length>0">
+			 				<div class="studentsList" v-for="y in x.students">
+			 					{{y.name}}
 			 				</div>
+			 			</div>
+			 			<div class="student-div-else" v-else>
+			 					未添加学生
 			 			</div>
 			 		</div>
 			 	</div>
@@ -70,25 +76,6 @@
 		},
 		data(){
 			return{
-				students:[
-					{
-						name:'测试1'
-					},{
-						name:'测试1'
-					},{
-						name:'测试1'
-					},{
-						name:'测试1'
-					},{
-						name:'测试1'
-					},{
-						name:'测试1'
-					},{
-						name:'测试1'
-					},{
-						name:'测试1'
-					},
-				],
 				dialogFormValue:false,
 				radioBtn:[-1,-1,-1,-1],
 				radioArr:[
@@ -155,6 +142,21 @@
 		align-items: center;
 		overflow-x: auto;
 	}
+	.ruleDesc{
+		width: 100%;
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		flex-direction: row;
+	}
+	.ruleDesc>div{
+		width: 80px;
+		border: 1px solid black;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin: 10px 5px;
+	}
 	.dialog-table{
 		padding: 10px;
 		width: 24%;
@@ -162,6 +164,7 @@
 		position: relative;
 		border:1px solid #F1F1F1;
 		margin:0 5px;
+		overflow: hidden;
 	}
 	.table-data{
 		height: 100%;
@@ -191,7 +194,6 @@
 		display: flex;
 		justify-content: space-around;
 		align-items: center;
-		width: 60%;
 	}
 	.radio{
 		border-radius: 50%;
@@ -242,6 +244,9 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 	.studentsList:hover{
 		border:1px solid #F1F1F1;
@@ -249,11 +254,21 @@
 	.button{
 		width: 90%;
 		margin: 5px 0 ;
+		overflow: hidden;
 	}
 	.student-div{
 		width: 100%; 
 		height: 100%;
+		overflow-y: auto;
+	}
+	.student-div-else{
+		width: 100%; 
+		height: 100%;
 		overflow: auto;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		color: #999999;
 	}
 	
 </style>

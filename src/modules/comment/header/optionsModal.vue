@@ -3,24 +3,32 @@
 		<choose-class
 			:chooseData="chooseData"
 			@changeSchool_="changeSchool_"
-		></choose-class>	
+			>
+		</choose-class>
+		
 		<choose-subject 
 			@changeSubject_="changeSubject_"
 			>
 		</choose-subject>
+		
+		<choose-category>
+		</choose-category>
+		
 		<choose-date
 			:disabled="disabled"
 			@changeDate_="changeDate_"
 			@submit_="submit_"
 			>
 		</choose-date>
+		
 	</div>
 </template>
 
 <script>
-	import chooseClass from '@/components/comment/desc/options/class'
-	import chooseSubject from '@/components/comment/desc/options/subject'
-	import chooseDate from '@/components/comment/desc/options/date'
+	import chooseClass from '@/components/comment/header/options/class'
+	import chooseSubject from '@/components/comment/header/options/subject'
+	import chooseCategory from '@/components/comment/header/options/category'
+	import chooseDate from '@/components/comment/header/options/date'
 	export default{
 		props:{
 			chooseData:{
@@ -54,6 +62,7 @@
 		components:{
 			chooseClass,
 			chooseSubject,
+			chooseCategory,
 			chooseDate
 		}
 	}
@@ -61,10 +70,10 @@
 
 <style scoped>
 	.searchModal{
-		align-self: flex-start;
+		width: 100%;
+		align-items: flex-start;
 		display: flex;
 		justify-content: flex-start;
-		align-items: center;
 		flex-direction: column;
 	}
 </style>

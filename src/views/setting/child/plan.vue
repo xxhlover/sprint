@@ -4,7 +4,14 @@
 			<span>当前班级：{{classNum}}班</span> <el-button type='primary' @click="changeClass">切换</el-button>
 		</div>
 			<div class="add-components">
-				<el-button type="primary" @click="addPlan">+新增计分方案</el-button>
+				<div class="add-header">
+					<div class="add-header-tabs">
+						<div :class="[active==index?'add-tab actived':'add-tab']" v-for="(x,index) in addTabs" @click="change(index)">
+							{{x.name}}
+						</div>
+					</div>
+					<el-button type="primary" @click="addPlan">+新增</el-button>
+				</div>
 				<data-list
 					:data="planData"
 					:rows="plan_rowsDataList"
@@ -46,6 +53,7 @@
 		mixins:[testData],
 		data(){
 			return{
+				active:0,
 				classNum:3,
 				chooseTitle:'选择当前班级'
 			}
@@ -72,6 +80,9 @@
 			},
 			addPlan(){
 				this.$refs['getScore'].$emit('show')
+			},
+			change(index){
+				this.active =index;
 			}
 		},
 		components:{
@@ -83,6 +94,9 @@
 </script>
 
 <style scoped>
+	.plan-page{
+		font-size:14px;
+	}
 	.classChange-module{
 		width: 100%;
 		text-align: left;
@@ -93,7 +107,33 @@
 		align-items: flex-start;
 		flex-direction: column;
 	}
-	.add-components>button{
+	.add-header{
+		width: 100%;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-direction: row;
 		margin: 20px 0;
+	}
+	.add-header-tabs{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: row;	
+		font-size: 14px;
+	}
+	.add-tab{
+		border:.1px solid #CCCCCC;
+		padding: 12px 40px;
+		color: black;
+		cursor: pointer;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		
+	}
+	.actived{
+		background: #0099FF;
+		color: white;
 	}
 </style>

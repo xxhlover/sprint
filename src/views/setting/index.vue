@@ -24,8 +24,6 @@
 					</router-view>
 				</el-main>
 			</el-container>
-
-			<!--<el-footer>Footer</el-footer>-->
 		</el-container>
 	</div>
 </template>

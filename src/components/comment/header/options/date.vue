@@ -15,7 +15,7 @@
 			<el-date-picker :disabled="disabled" v-model="form.dateTo" type="date" value-format="yyyy-MM-dd" placeholder="选择结束日期">
 			</el-date-picker>
 		</div>
-		<el-button type="primary" @click="submit_">确定</el-button>
+		<el-button class="buttnCss" type="primary" @click="submit_">确定</el-button>
 	</div>
 </template>
 
@@ -66,20 +66,20 @@
 	.searchDate {
 		width: 100%;
 		display: flex;
-		justify-content: center;
+		justify-content: flex-start;
 		align-items: center;
 	}
 	
 	.tag {
-		width: 45px;
-		height: 25px;
+		width: 3.5vw;
+		height: 2vw;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		margin-right: 10px;
+		margin-right: 1vw;
 		white-space: nowrap;
 		cursor: pointer;
-		border-radius: 10px;
+		border-radius: .8vw;
 	}
 	
 	.actived {
@@ -88,6 +88,9 @@
 	}
 	
 	.bigBtn {
-		width: 80px;
+		width: 5.5vw;
+	}
+	.buttnCss{
+		margin-left: 1vw;
 	}
 </style>

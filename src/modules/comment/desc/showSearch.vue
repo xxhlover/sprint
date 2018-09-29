@@ -5,7 +5,12 @@
 			:placeholder="desc" 
 			@changeSort="changeSort_">
 		</search-btn>
-		<search-result :data="resultData" :rows="resultRows" @click_="chooseOne_"></search-result>
+		<search-result 
+			:data="resultData" 
+			:rows="resultRows" 
+			@click_="chooseOne"
+			>
+		</search-result>
 	</div>
 </template>
 <script>
@@ -28,7 +33,7 @@
 			}
 		},
 		methods:{
-			chooseOne_(msg){
+			chooseOne(msg){
 				this.$emit('chooseOne_',msg);
 			},
 			changeSort_(msg){

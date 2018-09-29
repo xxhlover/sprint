@@ -12,6 +12,9 @@
 			</div>
 			<div class="rank-list">
 				<div class="student-list" v-for="(x,index ) in commentDescFilter">
+					<div class="std-index">
+						{{index+1}}
+					</div>
 					<div class="std-name">
 						{{x.name}}
 					</div>
@@ -92,21 +95,22 @@
 		justify-content: flex-start;
 		align-items: center;
 		flex-direction: row;
-		font-size: 13px;
+		font-size: .5vw;
 	}
 	.rank-div{
-		width: 35%;
+		width: 11vw;
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;
 		border:.5px solid darkgrey;
 		cursor: pointer;
+		padding: .2vw 0;
 	}
 	.rankLeft{
-		border-radius: 5px 0 0 5px;
+		border-radius: .8vw 0 0 .8vw;
 	}
 	.rankRight{
-		border-radius:  0 5px 5px 0;
+		border-radius:  0 .8vw .8vw 0;
 	}
 	.actived{
 		background: #0099FF;
@@ -119,5 +123,11 @@
 		align-items: center;
 		border-bottom: 1px solid darkgrey;
 		height: 50px;
+	}
+	.student-list>div{
+		width: 25%;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 </style>

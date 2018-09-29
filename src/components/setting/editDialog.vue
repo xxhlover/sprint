@@ -133,6 +133,7 @@
 				this.$refs[formName].resetFields();
 				this.$emit('reset')
 				this.checkBox=[];
+				this.showCheckBox = false;
 			},
 			close_(){
 				this.$emit('close');

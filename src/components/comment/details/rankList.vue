@@ -9,17 +9,15 @@
 			</div>
 		</div>
 		<div class="rank-list">
-			<el-table :data="data.arr" stripe style="width: 100%" :show-header="false">
-				<el-table-column v-for="x in rows" :prop="x.value" header-align="center">
-				</el-table-column>
-			</el-table>
-
-			<!--<div class="info rankRow" v-for="x in data.arr" >
-				<div>{{x.name}}</div>
-				<div>{{x.point}}</div>
-			</div>-->
+			<div :class="[index%2==0?'tableList':'greyCss tableList']" v-for="(x,index) in data.arr">
+				<div class="paiming">
+					{{index+1}}
+				</div>
+				<div v-for ="y in rows">
+					{{x[y.value]}}
+				</div>
+			</div>
 		</div>
-
 	</div>
 </template>
 
@@ -59,36 +57,52 @@
 	
 	.rank-header,
 	.rank-list {
-		width: 60%;
+		width: 30vw;
 	}
-	
+	.tableList>div{
+		width: 100%;
+	}
 	.rank-header {
 		justify-content: center;
 		align-items: center;
 		position: relative;
 		color: white;
-		height: 50px;
+		height: 3vw;
 	}
 	
 	.rank-header a {
 		text-decoration: none;
 		color: white;
-		font-size: 13px;
+		font-size: 1vw;
 	}
 	
 	.rank-header-right {
 		position: absolute;
-		right: 10px;
+		right: 1vw;
 	}
 	
 	.rankRow {
 		display: flex;
 		flex-direction: row;
+		align-items: center;
 	}
 	
 	.info {
 		justify-content: space-between;
 		align-items: center;
 		background: red;
+	}
+	.tableList{
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+		flex-direction: row;
+		height: 3vw;
+	}
+	.tableColumn{
+		width: 33%;
+	}
+	.greyCss{
+		background: #F2F2F2;
 	}
 </style>

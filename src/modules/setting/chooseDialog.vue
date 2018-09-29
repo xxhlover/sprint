@@ -24,7 +24,7 @@
 </template>
 
 <script>
-	import classOptions from '@/components/comment/desc/options/class'
+	import classOptions from '@/components/comment/header/options/class'
 	import search from '@/components/common/search'
 	import dataList from '@/components/setting/dataList'
 	export default{
