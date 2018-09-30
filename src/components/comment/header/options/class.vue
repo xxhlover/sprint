@@ -1,6 +1,6 @@
 <template>
 	<div class="searchClass">
-		<div style="white-space: nowrap;">
+		<div style="white-space: nowrap;" v-if="showDesc">
 			班级:
 		</div>
 		 <el-select
@@ -26,6 +26,10 @@
 		props:{
 			chooseData:{
 				type:[Object,Array]
+			},
+			showDesc:{
+				type:Boolean,
+				default:true
 			}
 		},
 		methods:{

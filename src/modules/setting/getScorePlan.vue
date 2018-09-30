@@ -120,7 +120,7 @@
 					this.radioBtn.splice(index,1);
 					this.copy_data.splice(index,1);	
 				}else{
-					console.log('不能删除')
+					alert('还有学生,不能删除')
 				}
 				
 			},
@@ -153,20 +153,20 @@
 			},
 			//添加分组
 			addTable(){
-				this.copy_data.push({
-					name:'测试方案',
-					ratio:1,
-					isEdit:false,
-					students:[]
-				});
 				for(let i in this.radioArr){
 					if(this.radioBtn.indexOf(this.radioArr[i].val)==-1){
 						this.radioBtn.push(this.radioArr[i].val)
+						this.copy_data.push({
+							name:'测试方案',
+							ratio:this.radioArr[i].val,
+							isEdit:false,
+							students:[]
+						});
 						break;
 					}
 				}
 			},
-			//确认,这里将会操作真实数据;
+			//确认,这里将返回给父页面,父页面会操作真实数据;
 			submit_(){
 				
 			},

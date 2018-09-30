@@ -14,25 +14,28 @@
 					</div>
 				</div>
 				<div class="simple-body">
-					<div class="simple-add">
+					<div class="simple-add" @click="addActions">
 						新增
 					</div>
-					<div class="simple-content" v-for="(y,index) in x.type">
+					<div class="simple-content" v-for="(y,index2) in x.type">
 						<div class="dialog">
-							
+						</div>
+						<div class="dialog-btn">
+							<button class="editBtn" @click="editBtn(index,index2,y)">编辑</button>
 						</div>
 						<div class="">
-							{{y.value}}
+							{{y.desc}}
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="">
+			<!--classChangeDialog-->
 				<choose-dialog
 					:chooseData="classOptions"
 					:title="chooseTitle"
-					ref="planChooseDialog"
+					ref="chooseDialog"
 					:data="planChooseData"
 					:rows="planChooseRows"
 					@search="search"
@@ -40,45 +43,37 @@
 					>
 				</choose-dialog>
 			</div>
+			<!--editBtnDialog-->
+			<edit-dialog
+				:title="editTitle"
+				ref= 'editDialog'
+				:sysIcons="sysIcons"
+				@changeUrl="changeIconUrl"
+				@submit_="submit_"
+				>
+				</edit-dialog>
+				
+				<!--into Dialog-->
+				<into-dialog
+					:chooseData="classOptions"
+					ref='intoDialog'
+				>
+				</into-dialog>
 	</div>
 </template>
 
 <script>
 	import {testData} from '../js/data'
 	import chooseDialog from '@/modules/setting/chooseDialog'
+	import editDialog from '@/modules/setting/editDialog'
+	import intoDialog from '@/modules/setting/intoDialog'
 	export default{
 		mixins:[testData],
 		data(){
 			return{
-				classNum:3,
+				editTitle:'编辑点评类型',
 				chooseTitle:'选择当前班级',
-				actions:[
-					{
-						desc:'表扬',
-						type:[
-							{
-								value:'回答很棒'
-							},{
-								value:'积极主动'
-							},{
-								value:'团队合作'
-							},{
-								value:'遵守纪律'
-							},{
-								value:'帮助他人'
-							},{
-								value:'注意力集中'
-							}
-						]
-					},{
-						desc:'警告',
-						type:[
-							{
-								value:'上课走神'
-							}
-						]
-					}
-				]
+				chooseEdit:''		//保存选择要编辑的类型;
 			}
 		},
 		methods:{
@@ -95,11 +90,35 @@
 			},
 			//导入
 			into(index){
-				
+				this.$refs['intoDialog'].$emit('show',index)
+			},
+			//新增
+			addActions(){
+				this.$refs['editDialog'].$emit('show');
+				this.editTitle = '添加点评类型';
+			},
+			//编辑按钮
+			editBtn(index,index2,val){
+				this.editTitle = '编辑点评类型';
+				this.chooseEdit =JSON.parse(JSON.stringify(val))
+				this.chooseEditIndex = index;
+				this.chooseEditIndex2 = index2;
+				this.$refs['editDialog'].$emit('show',this.chooseEdit)
+			},
+			//修改图标
+			changeIconUrl(index){
+				this.chooseEdit.url = this.sysIcons[index].url;
+			},
+			//提交修改
+			submit_(val){
+				//TODO 提交给后台,如果成功，直接修改本地数据，不用重新请求;
+				Object.assign(this.actions[this.chooseEditIndex].type[this.chooseEditIndex2],val)
 			}
 		},
 		components:{
-			chooseDialog
+			editDialog,
+			chooseDialog,
+			intoDialog
 		}
 	}
 </script>
@@ -133,10 +152,12 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		cursor: pointer;
 		margin:0 20px 20px 0;
 		border: 1px solid #CCCCCC;
 		position: relative;
+	}
+	.simple-add{
+		cursor: pointer;
 	}
 	.dialog{
 		position: absolute;
@@ -146,7 +167,27 @@
 		background: white;
 		opacity: 0;
 	}
-	.dialog:hover{
+	.dialog-btn{
+		position: absolute;
+		z-index: 2;
+		display: none;
+	}
+	.editBtn{
+		width: 80px;
+		height: 30px;
+		background: white;
+		border:1px solid #A9A9A9;
+		border-radius: 50px;
+		cursor: pointer;
+	}
+	.simple-content:hover > .dialog{
 		opacity: .6;
+	}
+	.simple-content:hover > .dialog-btn{
+		display: block;
+	}
+	.editBtn:hover{
+		color: #06BB9C;
+		border:1px solid #06BB9C;
 	}
 </style>
