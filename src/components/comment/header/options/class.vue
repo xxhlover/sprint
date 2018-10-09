@@ -6,7 +6,11 @@
 		 <el-select
 		 	style="margin: 0 5px;"
 		 	v-model="x.value" 
-		 	:placeholder="x.placeholder" @change="changeSchool(index)" v-for="(x,index) in chooseData" :disabled='index>disable' resize="horizontal">
+		 	:placeholder="x.placeholder" 
+		 	@change="changeSchool(index)" 
+		 	v-for="(x,index) in chooseData" 
+		 	:disabled='index>disable' 
+		>
 		    <el-option
 		      v-for="(item,index) in x.options"
 		      :label="item.name"
@@ -32,6 +36,11 @@
 				default:true
 			}
 		},
+//		mounted(){
+//			this.$on('reset',()=>{
+//				this.chooseData[0].value =''; 
+//			})
+//		},
 		methods:{
 			changeSchool(index){
 				if(index==0){

@@ -35,11 +35,11 @@
 				menuList: [{
 					"menu": "点评类型管理",
 					"name": "1",
-					"url": "/setting/category"
+					"url": "/setting/categoryManager"
 				}, {
 					"menu": "点评分类管理",
 					"name": "2",
-					"url": "/"
+					"url": "/setting/classifyManager"
 				}, {
 					"menu": "计分方案管理",
 					"name": "3",

@@ -25,24 +25,17 @@ export default new Router({
 		path: '/setting',
 		name: 'setting',
 		component: resolve => require(['@/views/setting/index'], resolve),
-		redirect: '/setting/category',
+		redirect: '/setting/categoryManager',
 		children: [{
-				path: 'category',
-				component: resolve => require(['@/views/setting/child/category'], resolve)
-			},
-			//		{
-			//			path:'classify',
-			//			component:resolve=>require(['@/views/setting/child/classify'],resolve)
-			//		},
-			{
+				path: 'categoryManager',
+				component: resolve => require(['@/views/setting/child/categoryManager'], resolve)
+			},{
+				path: 'classifyManager',
+				component: resolve => require(['@/views/setting/child/classifyManager'], resolve)
+			},{
 						path:'planManager',
-						component:resolve=>require(['@/views/setting/child/plan'],resolve)
-					},
-			{
-				path: 'weight',
-				component: resolve => require(['@/views/setting/child/weight'], resolve)
-			},
-			{
+						component:resolve=>require(['@/views/setting/child/planManager'],resolve)
+			},{
 				path: 'functionManager',
 				component: resolve => require(['@/views/setting/child/functionManager'], resolve)
 			}, {

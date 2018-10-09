@@ -1,13 +1,13 @@
 <template>
 	<div class="chooseDialog-comp">
-		<el-dialog top="5vh" width="60vw" :title="title" :visible.sync="dialogFormValue" @close="close_" v-if="dialogFormValue">
+		<el-dialog width="60vw" :title="title" :visible.sync="dialogFormValue" @close="close_">
 				<div class="search-module">
 					<class-options
-					v-if="options"
+						ref= 'classOptions'
 					:chooseData="chooseData"
 					>
-				</class-options>
-				<search @search_="search"></search>
+					</class-options>
+					<search @search_="search"></search>
 				</div>
 				<data-list
 					:choose="choose"
@@ -31,7 +31,7 @@
 		data(){
 			return {
 				dialogFormValue:false,
-				options:true
+				options:''
 			}
 		},
 		mounted(){
@@ -64,7 +64,12 @@
 		},
 		methods:{
 			search(msg){
-				this.$emit('search',msg)
+				//msg为关键字
+				console.log(msg)
+				this.chooseData.filter((val,index)=>{
+					console.log(val.value)
+				})
+//				this.$emit('search',msg)
 			},
 			chooseInfo(msg){
 				this.$emit('chooseInfo_',msg)

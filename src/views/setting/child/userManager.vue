@@ -6,10 +6,10 @@
 		<edit-dialog
 			v-if="dialogFormVisible"
 			:data="user_chooseOne"
-			:rules='user_rules'
-			:rowsData="user_rowsData"
+			:rules='action=="add"?user_rules:editUser_rules'
+			:rowsData='action=="add"?user_rowsData:editUser_rowsData'
 			:dialogFormVisible="dialogFormVisible"
-			title="添加用户"
+			:title='action=="add"?"添加用户":"编辑用户"'
 			refs="addUser"
 			@changeRadio_="changeRadio_"
 			@reset= "reset"
@@ -49,6 +49,7 @@
 		mixins:[testData],
 		data(){
 			return {
+				action:'edit',
 				chooseTitle:'',
 				show:true,
 				dialogFormVisible:false,
@@ -110,6 +111,7 @@
 			},
 			//table表格
 			editInfo_(msg){
+				this.action = 'edit';
 				this.user_chooseOne = JSON.parse(JSON.stringify(msg));
 				this.dialogFormVisible = true;
 			},

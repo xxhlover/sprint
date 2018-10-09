@@ -3,73 +3,97 @@ export const testData = {
 		return {
 			//点评类型管理
 			classNum: 3,
+			//默认点评类型
 			actions: [{
 				desc: '表扬',
 				type: [{
 					id:1,
 					desc: '回答很棒',
 					value:1,
-					category:'类别1',
-					url:'test.png'
+					category:['fenlei1'],
+					url:'test.png',
+					type:'defind'
 				}, {
 					id:2,
 					desc: '积极主动',
 					value:2,
-					category:'类别2',
-					url:'test2.png'
+					category:['fenlei2'],
+					url:'test2.png',
+					type:'defind'
 				}, {
 					id:3,
 					desc: '团队合作',
 					value:3,
-					category:'类别1',
-					url:'test.png'
+					category:['fenlei1','fenlei2'],
+					url:'test.png',
+					type:'defind'
 				}, {
 					id:4,
 					desc: '遵守纪律',
 					value:1,
-					category:'类别2',
-					url:'test3.png'
+					category:['fenlei1','fenlei3'],
+					url:'test3.png',
+					type:'defind'
 				}, {
 					id:5,
 					desc: '帮助他人',
 					value:2,
-					category:'类别1',
-					url:'tes4.png'
+					category:['fenlei1','fenlei2'],
+					url:'tes4.png',
+					type:'defind'
 				}, {
 					id:6,
 					desc: '注意力集中',
 					value:3,
-					category:'类别2',
-					url:'test.png'
+					category:['fenlei1','fenlei2','fenlei2'],
+					url:'test.png',
+					type:'defind'
+				},{
+					id:11,
+					desc: '回答很nice',
+					value:1,
+					category:['fenlei1','fenlei1'],
+					url:'test.png',
+					flag:false,
+					type:'self'
 				}]
 			}, {
-				id:7,
 				desc: '警告',
 				type: [{
+					id:7,
 					desc: '上课走神',
 					value:1,
-					category:'类别2',
-					url:'test11.png'
+					category:['fenlei1'],
+					url:'test11.png',
+					type:'defind'
 				},{
+					id:8,
 					desc: '未完成作业',
 					value:1,
-					category:'类别2',
-					url:'test11.png'
+					category:['fenlei1'],
+					url:'test11.png',
+					type:'defind'
 				},{
+					id:9,
 					desc: '迟到早退',
 					value:1,
-					category:'类别2',
-					url:'test11.png'
+					category:['fenlei1'],
+					url:'test11.png',
+					type:'defind'
 				},{
+					id:10,
 					desc: '乱吃零食',
 					value:1,
-					category:'类别2',
-					url:'test11.png'
+					category:['fenlei2'],
+					url:'test11.png',
+					type:'defind'
 				},{
+					id:11,
 					desc: '追逐打闹',
 					value:1,
-					category:'类别2',
-					url:'test11.png'
+					category:['fenlei3'],
+					url:'test11.png',
+					type:'defind'
 				},]
 			}],
 			//系统图标
@@ -88,6 +112,48 @@ export const testData = {
 			}, {
 				url: 'test7.png'
 			}],
+			//自定义图标
+			selfIcons:[
+			],
+			//模拟需要导入的点评类型选择
+			intoCategoryData:[
+				{
+					id:1,
+					desc: '回答很棒',
+					value:1,
+					category:['fenlei1','fenlei1'],
+					url:'test.png',
+					flag:false
+				},{
+					id:2,
+					desc: '积极主动',
+					value:1,
+					category:['fenlei1','fenlei2'],
+					url:'test.png',
+					flag:false
+				},{
+					id:3,
+					desc: '团队合作',
+					value:1,
+					category:['fenlei1','fenlei3'],
+					url:'test.png',
+					flag:false
+				},{
+					id:4,
+					desc: '遵守纪律',
+					value:1,
+					category:['fenlei2','fenlei1'],
+					url:'test.png',
+					flag:false
+				},{
+					id:5,
+					desc: '回答很nice',
+					value:2,
+					category:['fenlei1','fenlei1'],
+					url:'test1.png',
+					flag:false,
+				},
+			],
 
 			//计分方案管理
 			addTabs: [{
@@ -279,6 +345,59 @@ export const testData = {
 					message: '请选择用户',
 					trigger: 'blur'
 				}],
+				funcRole: [{
+					required: true,
+					message: '请关联功能角色',
+					trigger: 'blur'
+				}]
+			},
+			editUser_rowsData: [{
+				label: '用户账号',
+				name: 'userName',
+				type: 'disable'
+			}, {
+				label: '用户姓名',
+				name: 'name',
+				type: 'disable'
+			}, {
+				label: '关联功能角色',
+				name: 'funcRole',
+				type: 'choose',
+				child: [{
+					name: '学生',
+					value: 0
+				}, {
+					name: '教师',
+					value: 1
+				}, {
+					name: '管理者',
+					value: 2
+				}]
+			}, {
+				label: '关联数据角色',
+				name: 'dataRole',
+				type: 'choose',
+				child: [{
+					name: '教师',
+					value: 1
+				}, {
+					name: '管理者',
+					value: 2
+				}, {
+					name: '班长',
+					value: 3
+				}, {
+					name: '学习委员',
+					value: 4
+				}, {
+					name: '劳动委员',
+					value: 5
+				}, {
+					name: '纪律委员',
+					value: 6
+				}, ]
+			}],
+			editUser_rules: {
 				funcRole: [{
 					required: true,
 					message: '请关联功能角色',

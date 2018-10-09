@@ -1,3 +1,4 @@
+<!--编辑&添加点评类型-->
 <template>
 	<div class="editCategory-module">
 		<el-dialog
@@ -22,6 +23,7 @@
 				<div class="imgLists">
 					<category-tabs 
 						:sysIcons="sysIcons" 
+						:selfIcons="selfIcons"
 						:data="descInfo.url"
 						@changeIcon="changeIcon_"
 						>
@@ -51,25 +53,25 @@
 				type:String,
 				default:'点评类型'
 			},
-			//图标
+			//默认图标
 			sysIcons:{
 				type:[Object,Array]
 			},
+			selfIcons:{
+				type:[Object,Array]
+			}
 		},
 		mounted(){
 			this.$on('show',(data)=>{
 				this.dialogFormValue = true;
-				this.descInfo = data || {
-					desc:'',
-					value:1,
-					category:''
-				};
+				this.descInfo = data;
+				console.log(data)
 			})
 		},
 		methods:{
 			//修改图标
-			changeIcon_(index){
-				this.$emit('changeUrl',index)
+			changeIcon_(index,type){
+				this.$emit('changeUrl',index,type);
 			},
 			//修改分值
 			changeVal_(val){

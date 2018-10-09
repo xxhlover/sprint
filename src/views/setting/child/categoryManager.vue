@@ -14,7 +14,7 @@
 					</div>
 				</div>
 				<div class="simple-body">
-					<div class="simple-add" @click="addActions">
+					<div class="simple-add" @click="addActions(index)" v-if="x.type.length<20">
 						新增
 					</div>
 					<div class="simple-content" v-for="(y,index2) in x.type">
@@ -48,6 +48,7 @@
 				:title="editTitle"
 				ref= 'editDialog'
 				:sysIcons="sysIcons"
+				:selfIcons="selfIcons"
 				@changeUrl="changeIconUrl"
 				@submit_="submit_"
 				>
@@ -57,8 +58,16 @@
 				<into-dialog
 					:chooseData="classOptions"
 					ref='intoDialog'
+					:intoCategory="intoCategoryData"
+					@into_="intoData"
 				>
 				</into-dialog>
+				<!--chooseCategoryDialog-->
+				<category-dialog
+					ref="categoryDialog"
+					@submit_="submit_into"
+					>
+				</category-dialog>
 	</div>
 </template>
 
@@ -67,13 +76,21 @@
 	import chooseDialog from '@/modules/setting/chooseDialog'
 	import editDialog from '@/modules/setting/editDialog'
 	import intoDialog from '@/modules/setting/intoDialog'
+	import categoryDialog from '@/modules/setting/categoryDialog'
 	export default{
 		mixins:[testData],
 		data(){
 			return{
 				editTitle:'编辑点评类型',
 				chooseTitle:'选择当前班级',
-				chooseEdit:''		//保存选择要编辑的类型;
+				chooseEdit:'',		//保存选择要编辑的类型;
+				chooseAdd:{			//保存添加得类型;
+					desc:'',
+					value:1,
+					category:'',
+					url:''
+				},
+				saveUpdateIndex:[]  //累加导致的同名事项的下标，用于进行本地数据的修改
 			}
 		},
 		methods:{
@@ -82,7 +99,8 @@
 				this.$refs['chooseDialog'].$emit('show',true);
 			},
 			//班级切换/查询
-			search(){
+			search(val){
+				console.log(val)
 			},
 			//班级切换/选择
 			chooseInfo_(msg){
@@ -91,10 +109,19 @@
 			//导入
 			into(index){
 				this.$refs['intoDialog'].$emit('show',index)
+				this.chooseEditIndex = index;
 			},
 			//新增
-			addActions(){
-				this.$refs['editDialog'].$emit('show');
+			addActions(index){
+				this.chooseEdit = '';
+				this.chooseAdd = {
+					desc:'',
+					value:1,
+					category:'',
+					url:''
+				};
+				this.$refs['editDialog'].$emit('show',this.chooseAdd);
+				this.chooseEditIndex = index;
 				this.editTitle = '添加点评类型';
 			},
 			//编辑按钮
@@ -106,19 +133,113 @@
 				this.$refs['editDialog'].$emit('show',this.chooseEdit)
 			},
 			//修改图标
-			changeIconUrl(index){
-				this.chooseEdit.url = this.sysIcons[index].url;
+			changeIconUrl(index,type){
+				if(this.chooseEdit){
+					if(type=='sysIcons'){
+						this.chooseEdit.url = this.sysIcons[index].url;	
+					}else{
+						this.chooseEdit.url = this.selfIcons[index].url;
+					}
+				}else{
+					if(type=='sysIcons'){
+						this.chooseAdd.url = this.sysIcons[index].url;
+					}else{
+						this.chooseAdd.url = this.selfIcons[index].url;
+					}
+				}
+				
 			},
 			//提交修改
 			submit_(val){
 				//TODO 提交给后台,如果成功，直接修改本地数据，不用重新请求;
-				Object.assign(this.actions[this.chooseEditIndex].type[this.chooseEditIndex2],val)
+				if(val.id){
+					//修改
+					Object.assign(this.actions[this.chooseEditIndex].type[this.chooseEditIndex2],val)	
+				}else{
+					//添加 需要请求到id
+					this.actions[this.chooseEditIndex].type.push(val)
+				}
+			},
+			//导入类型提交
+			intoData(type,val){
+				if(val.length>0){
+					//提交
+					this.into_filter(type,val);
+				}else{
+					console.log('什么都没做')
+					this.close_intoDialog();
+				}
+			},
+			//选择累加后的同名事项,发送给后台进行更改
+			submit_into(val){
+				//TODO 发送给后台，如果返回成功，修改本地数据
+				for(let i in this.saveUpdateIndex){
+					this.actions[this.chooseEditIndex].type.splice(this.saveUpdateIndex[i],1,val[i]);
+				}
+				this.$refs['categoryDialog'].$emit('hide');
+				this.close_intoDialog();
+			},
+			into_filter(type,val){
+				this.saveUpdateIndex = [];
+				let showChooseDialog = false,
+					newArr = [],
+					oldArr = [];
+				if(type==0){
+					//累加
+					let val2 = this.actions[this.chooseEditIndex].type;
+					for(let i in val){
+						for(let j in val2){
+							//全同
+							if(val[i].desc == val2[j].desc && val[i].value == val2[j].value && val[i].url == val2[j].url){
+								//保留原设置
+								console.log('保留原设置')
+								break;
+							}else{
+								//名同
+								if(val[i].desc == val2[j].desc){
+									//如果是与自定义内容同名，进行选择
+									if(val2[j].type=='self'){
+										console.log('名同且是自定义点评类型，弹框确认')
+										showChooseDialog = true;
+										newArr.push(val[i]);
+										oldArr.push(val2[j]);
+										this.saveUpdateIndex.push(j);
+									}else{
+										console.log('名同但是默认点评类型，默认保留默认点评')
+										//如果是与默认内容同名，默认保留默认点评类型
+										//可以给一个提示
+									}
+									break;
+								}else{
+									//名不同,直接添加
+									if(j == val2.length-1){
+										console.log('名不同，直接添加')
+										this.actions[this.chooseEditIndex].type.push(val[i]);	
+									}
+								}
+							}
+						}
+					}
+				}else{
+					//替换 清除原有类型，只保留新导入的类型
+					this.actions[this.chooseEditIndex].type = val;
+				}
+				if(showChooseDialog){
+						//显示选择dialog
+						this.$refs['categoryDialog'].$emit('show',oldArr,newArr);
+				}else{
+					this.close_intoDialog();	
+				}
+			},
+			close_intoDialog(){
+				this.$refs['intoDialog'].$emit('hide');
 			}
 		},
 		components:{
 			editDialog,
 			chooseDialog,
-			intoDialog
+			intoDialog,
+			categoryDialog
 		}
 	}
 </script>

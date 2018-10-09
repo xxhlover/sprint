@@ -1,6 +1,6 @@
 <template>
 	<div class="search-comp">
-		<el-input :placeholder="placeholder" v-model="val" class="input-with-select" :clearable="true">
+		<el-input :placeholder="placeholder" v-model="val" class="input-with-select" clearable>
 			<el-button slot="append" icon="el-icon-search" @click="search_"></el-button>
 		</el-input>
 	</div>
